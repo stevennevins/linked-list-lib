@@ -70,7 +70,11 @@ contract Insert is LinkedListLibSetup {
 
         uint256 currentNode = list.head;
         for (uint256 i = 0; i < 5; i++) {
-            assertEq(list.nodes[currentNode].data, expectedOrder[i], "Order is not maintained after insertion");
+            assertEq(
+                list.nodes[currentNode].data,
+                expectedOrder[i],
+                "Order is not maintained after insertion"
+            );
             currentNode = list.nodes[currentNode].next;
         }
     }
@@ -104,7 +108,6 @@ contract Insert is LinkedListLibSetup {
         vm.expectRevert(LinkedListLib.DataMustBeGreaterThanZero.selector);
         list.insert(0);
     }
-
 }
 
 contract Remove is LinkedListLibSetup {
@@ -114,7 +117,7 @@ contract Remove is LinkedListLibSetup {
         list.insert(3);
         uint256 node2 = list.insert(5);
         list.insert(7);
-        
+
         list.remove(node2);
         assertFalse(list.contains(5));
         assertEq(list.getSize(), 2);
@@ -123,9 +126,9 @@ contract Remove is LinkedListLibSetup {
     function testRemoveNonExistingElement() public {
         list.insert(3);
         list.insert(5);
-        
+
         vm.expectRevert(LinkedListLib.InvalidNodeIndex.selector);
-        list.remove(3);  // Node index 3 doesn't exist
+        list.remove(3); // Node index 3 doesn't exist
         assertEq(list.getSize(), 2);
     }
 
@@ -169,10 +172,9 @@ contract Remove is LinkedListLibSetup {
     function testRemoveLastRemainingElements() public {
         uint256 node1 = list.insert(3);
         uint256 node2 = list.insert(7);
-        
+
         list.remove(node1);
         list.remove(node2);
-
 
         assertTrue(list.isEmpty());
     }
